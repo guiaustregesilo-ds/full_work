@@ -9,6 +9,28 @@ table f_cotacoes
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure 'Cotação corrigida' = ```
+			
+			
+			VAR __DataCtx = MAX(d_calendario[Data]) 
+			
+			VAR __UltimaDataComCotacao = 
+			    CALCULATE(
+			        LASTNONBLANK(d_calendario[Data], [Cotação do dia]),
+			        d_calendario[Data] <= __DataCtx
+			    )
+			
+			RETURN
+			    CALCULATE(
+			        [Cotação do dia],
+			       d_calendario[Data] = __UltimaDataComCotacao
+			    )
+			```
+		displayFolder: Medida
+		lineageTag: 87474f82-6802-4935-94e0-44693c2bcde2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Moeda
 		dataType: string
 		displayFolder: Colunas
